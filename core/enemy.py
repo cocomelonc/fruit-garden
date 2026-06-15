@@ -5,7 +5,7 @@ from core.weapon_fire import *
 
 # enemy sprite
 class EnemySprite(pygame.sprite.Sprite):
-    def __init__(self, screen, x, y, face):
+    def __init__(self, screen, x, y, face, patrol):
         super(EnemySprite, self).__init__()
         self.screen = screen
         self.left, self.right, self.up, self.down = [], [], [], []
@@ -17,8 +17,9 @@ class EnemySprite(pygame.sprite.Sprite):
         self.index = 0
         self.image = self.right[self.index]
         self.x, self.y, self.face = x, y, face
-        self.right_x, self.left_x = x + random.randint(64, 72), x - random.randint(64, 72)
-        self.down_y, self.up_y = y + random.randint(64, 72), y - random.randint(64, 72)
+        # patrol span around the spawn point, taken from the level data
+        self.right_x, self.left_x = x + patrol, x - patrol
+        self.down_y, self.up_y = y + patrol, y - patrol
         self.rect = pygame.Rect(self.x, self.y, 32, 32)
 
     def move_left(self):
@@ -86,9 +87,9 @@ class EnemySprite(pygame.sprite.Sprite):
 
 # enemy class - enemies
 class Enemy(pygame.sprite.Group):
-    def __init__(self, screen, x, y, face):
+    def __init__(self, screen, x, y, face, patrol=68):
         self.screen = screen
-        self.enemy_sprite = EnemySprite(self.screen, x, y, face)
+        self.enemy_sprite = EnemySprite(self.screen, x, y, face, patrol)
         self.x, self.y, self.face = self.enemy_sprite.x, self.enemy_sprite.y, self.enemy_sprite.face
         self.centerx, self.centery = self.enemy_sprite.rect.centerx, self.enemy_sprite.rect.centery
         self.right_x, self.left_x = self.enemy_sprite.right_x, self.enemy_sprite.left_x

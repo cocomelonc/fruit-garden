@@ -15,10 +15,12 @@ class Level():
         self.sound_win = pygame.mixer.Sound("./sounds/level/win.ogg")
         self.generator = LevelGenerator(self.num, self.world)
         self.game_over, self.game_over_font = False, pygame.font.SysFont("monaco", 32)
+        self.roads = self.generator.roads
         self.stars = self.generator.generate_stars()
         self.trees = self.generator.generate_trees()
         self.enemies = self.generator.generate_enemies()
-        self.hero = Hero(self.world, self.generator.start_point()[0], self.generator.start_point()[1], 3)
+        start_x, start_y = self.generator.start_point()
+        self.hero = Hero(self.world, start_x, start_y, 3)
 
     def draw(self):
         self.world.screen.blit(self.map, [0, 0])
@@ -47,7 +49,7 @@ class Level():
             self.go_next_level()
 
     def go_next_level(self):
-        if self.num <= 1:
+        if self.generator.level_exists(self.num + 1):
             self.sound_win.play()
             self.num += 1
             self.__init__(self.world, self.num)
