@@ -111,7 +111,7 @@ class Hero(pygame.sprite.Group):
         self.screen.blit(ui_enemy_score, [520, 4])
         self.weapon.draw()
         cyear = datetime.datetime.now().year
-        copyright = self.ui.render("Copyright (c) %s by zhzhussupovkz" % cyear, 3, (255, 255, 255))
+        copyright = self.ui.render("Copyright (c) %s by cocomelonc" % cyear, 3, (255, 255, 255))
         self.screen.blit(copyright, [240, 620])
 
     def update(self):
